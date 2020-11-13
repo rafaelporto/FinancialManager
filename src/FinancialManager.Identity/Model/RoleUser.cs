@@ -2,7 +2,7 @@
 
 namespace FinancialManager.Identity
 {
-	public class ApplicationUser : IdentityUser
+	class RoleUser : IdentityRole
 	{
 	}
 }
