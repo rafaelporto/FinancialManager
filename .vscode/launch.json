@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Server",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/FinancialManager.Web/Server/bin/Debug/net5.0/FinancialManager.Web.Server.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/FinancialManager.Web/Server",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Client",
+            "type": "blazorwasm",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/FinancialManager.Web/Client/",
+        },
+    ],
+    "compounds": [
+        {
+          "name": "Server/Client",
+          "configurations": ["Server", "Client"],
+          "preLaunchTask": "Build"
+        }
+      ]
+}

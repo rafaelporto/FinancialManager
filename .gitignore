@@ -2,11 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/FinancialManager
-/src/FinancialManager.Identity/obj
-/src/FinancialManager.Web/Client/obj
-/src/FinancialManager.Web/Client/bin/Debug/net5.0
-/src/FinancialManager.Web/Server/bin/Debug/net5.0
-/src/FinancialManager.Web/Server/obj
-/src/FinancialManager.Web/Shared/bin/Debug/net5.0
-/src/FinancialManager.Web/Shared/obj
+/.vs
+**/obj
+**/bin
