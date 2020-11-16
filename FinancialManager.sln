@@ -13,13 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Web.Shared
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{4D1BB567-E5EB-4075-961F-9935310F5A09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Core", "src\Services\FinancialManager.Core\FinancialManager.Core.csproj", "{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Core", "src\Services\FinancialManager.Core\FinancialManager.Core.csproj", "{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FinancialManager.Identity", "FinancialManager.Identity", "{EF82084D-BCEB-4B82-98F6-FC683E1D0932}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Identity.Domain", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Domain\FinancialManager.Identity.Domain.csproj", "{19D150D5-336C-43AC-90CC-DFC2F3047E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Identity.Domain", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Domain\FinancialManager.Identity.Domain.csproj", "{19D150D5-336C-43AC-90CC-DFC2F3047E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Identity.Data", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Data\FinancialManager.Identity.Data.csproj", "{394AC646-BF58-47DB-A175-E958228D23CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Identity.Data", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Data\FinancialManager.Identity.Data.csproj", "{394AC646-BF58-47DB-A175-E958228D23CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Identity.Application", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Application\FinancialManager.Identity.Application.csproj", "{4AAA1558-E112-4224-A9D6-07A0052F8AF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{394AC646-BF58-47DB-A175-E958228D23CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{394AC646-BF58-47DB-A175-E958228D23CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{394AC646-BF58-47DB-A175-E958228D23CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{EF82084D-BCEB-4B82-98F6-FC683E1D0932} = {4D1BB567-E5EB-4075-961F-9935310F5A09}
 		{19D150D5-336C-43AC-90CC-DFC2F3047E23} = {EF82084D-BCEB-4B82-98F6-FC683E1D0932}
 		{394AC646-BF58-47DB-A175-E958228D23CE} = {EF82084D-BCEB-4B82-98F6-FC683E1D0932}
+		{4AAA1558-E112-4224-A9D6-07A0052F8AF8} = {EF82084D-BCEB-4B82-98F6-FC683E1D0932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9EA2458-6382-479C-96AB-4A9C44A68C60}
