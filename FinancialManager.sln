@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{04368253-E6D5-4CF7-A3C3-FC9690230CAB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - WebUI", "1 - WebUI", "{04368253-E6D5-4CF7-A3C3-FC9690230CAB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Web.Server", "src\FinancialManager.Web\Server\FinancialManager.Web.Server.csproj", "{D848AC46-CF27-4495-97F5-885EE4A8CB93}"
 EndProject
@@ -11,17 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Web.Client
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Web.Shared", "src\FinancialManager.Web\Shared\FinancialManager.Web.Shared.csproj", "{2A886060-D608-41CF-95F3-2387403696A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{4D1BB567-E5EB-4075-961F-9935310F5A09}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{0C8D2EA3-AD97-4B1A-AFE8-5F282AC85524}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Core", "src\Services\FinancialManager.Core\FinancialManager.Core.csproj", "{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{F5DC08E5-C71C-497A-BA50-B9A02CD278D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FinancialManager.Identity", "FinancialManager.Identity", "{EF82084D-BCEB-4B82-98F6-FC683E1D0932}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{D54CE8BF-00F0-4ABF-8171-5D67D45F474D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Identity.Domain", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Domain\FinancialManager.Identity.Domain.csproj", "{19D150D5-336C-43AC-90CC-DFC2F3047E23}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Identity.Data", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Data\FinancialManager.Identity.Data.csproj", "{394AC646-BF58-47DB-A175-E958228D23CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Identity.Application", "src\Services\FinancialManager.Identity\FinancialManager.Identity.Application\FinancialManager.Identity.Application.csproj", "{4AAA1558-E112-4224-A9D6-07A0052F8AF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Infra.CrossCutting", "src\Infra\FinancialManager.Infra\FinancialManager.Infra.CrossCutting.csproj", "{029AD2BD-3FE8-4617-8496-5E79024F9423}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,22 +37,10 @@ Global
 		{2A886060-D608-41CF-95F3-2387403696A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A886060-D608-41CF-95F3-2387403696A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A886060-D608-41CF-95F3-2387403696A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F57143CB-D7B6-4E98-AFC5-194A9FB588D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19D150D5-336C-43AC-90CC-DFC2F3047E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19D150D5-336C-43AC-90CC-DFC2F3047E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19D150D5-336C-43AC-90CC-DFC2F3047E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19D150D5-336C-43AC-90CC-DFC2F3047E23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{394AC646-BF58-47DB-A175-E958228D23CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{394AC646-BF58-47DB-A175-E958228D23CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{394AC646-BF58-47DB-A175-E958228D23CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{394AC646-BF58-47DB-A175-E958228D23CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AAA1558-E112-4224-A9D6-07A0052F8AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{029AD2BD-3FE8-4617-8496-5E79024F9423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{029AD2BD-3FE8-4617-8496-5E79024F9423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{029AD2BD-3FE8-4617-8496-5E79024F9423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{029AD2BD-3FE8-4617-8496-5E79024F9423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,11 +49,7 @@ Global
 		{D848AC46-CF27-4495-97F5-885EE4A8CB93} = {04368253-E6D5-4CF7-A3C3-FC9690230CAB}
 		{1784F90A-689A-4B89-84C2-6F8CACF9D5CE} = {04368253-E6D5-4CF7-A3C3-FC9690230CAB}
 		{2A886060-D608-41CF-95F3-2387403696A8} = {04368253-E6D5-4CF7-A3C3-FC9690230CAB}
-		{F57143CB-D7B6-4E98-AFC5-194A9FB588D1} = {4D1BB567-E5EB-4075-961F-9935310F5A09}
-		{EF82084D-BCEB-4B82-98F6-FC683E1D0932} = {4D1BB567-E5EB-4075-961F-9935310F5A09}
-		{19D150D5-336C-43AC-90CC-DFC2F3047E23} = {EF82084D-BCEB-4B82-98F6-FC683E1D0932}
-		{394AC646-BF58-47DB-A175-E958228D23CE} = {EF82084D-BCEB-4B82-98F6-FC683E1D0932}
-		{4AAA1558-E112-4224-A9D6-07A0052F8AF8} = {EF82084D-BCEB-4B82-98F6-FC683E1D0932}
+		{029AD2BD-3FE8-4617-8496-5E79024F9423} = {D54CE8BF-00F0-4ABF-8171-5D67D45F474D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9EA2458-6382-479C-96AB-4A9C44A68C60}
