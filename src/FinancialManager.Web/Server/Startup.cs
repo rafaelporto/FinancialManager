@@ -1,4 +1,5 @@
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,7 @@ namespace FinancialManager.Web.Server
 				options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
 				options.HttpsPort = 5025;
 			});
+			services.AddAutoMapper(typeof(Startup));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

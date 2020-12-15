@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using FluentValidation;
 
-namespace FinancialManager.Infra.CrossCutting.Identity
+namespace FinancialManager.Identity
 {
 	internal class UserValidation : AbstractValidator<ApplicationUser>
 	{
