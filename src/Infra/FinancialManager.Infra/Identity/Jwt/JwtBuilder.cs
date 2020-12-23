@@ -20,7 +20,7 @@ namespace FinancialManager.Identity.Jwt
 
 		public JwtBuilder(UserManager<ApplicationUser> userManager, AppJwtSettings appJwtSettings)
 		{
-            _userManager = userManager ?? throw new ArgumentException(nameof(userManager));
+            _userManager = userManager ?? throw new ArgumentException("Usermanager is required.", nameof(userManager));
             _appJwtSettings = appJwtSettings ?? throw new ArgumentException(nameof(appJwtSettings));
         }
 
@@ -82,8 +82,6 @@ namespace FinancialManager.Identity.Jwt
                     SecurityAlgorithms.HmacSha256Signature)
             });
 
-            Reset();
-
             return tokenHandler.WriteToken(token);
         }
 
@@ -100,18 +98,8 @@ namespace FinancialManager.Identity.Jwt
                 }
             };
 
-            Reset();
-
             return user;
         }
-
-        private void Reset()
-        {
-            _user = default;
-            _userClaims = default;
-            _jwtClaims = default;
-            _identityClaims = default;
-    }
 
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))

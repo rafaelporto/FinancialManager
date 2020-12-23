@@ -7,9 +7,10 @@ namespace FinancialManager.Infra.CrossCutting.IoC
 {
 	public static class DependencyBootstrapper
 	{
-		public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddScoped<INotificationContext, NotificationContext>();
+			services.AddScoped<IAuthService, AuthService>();
 			services.AddIdentityConfiguration(configuration);
 
 			return services;

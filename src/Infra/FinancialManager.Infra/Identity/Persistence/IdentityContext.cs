@@ -25,6 +25,9 @@ namespace FinancialManager.Identity
             {
                 p.Property(u => u.Id).HasDefaultValueSql("newsequentialid()");
                 p.Property(user => user.CreatedDate).ValueGeneratedOnAdd().Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                p.Ignore(user => user.ValidationResults);
+                p.Ignore(user => user.IsInvalid);
+                p.Ignore(user => user.IsValid);
             });
 
             builder.Entity<IdentityRole<Guid>>(b =>

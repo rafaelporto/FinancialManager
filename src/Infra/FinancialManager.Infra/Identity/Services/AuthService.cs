@@ -17,7 +17,7 @@ namespace FinancialManager.Identity
 		private readonly AppJwtSettings _jwtSettings;
 		private readonly JwtBuilder _jwtBuilder;
 
-		internal AuthService(SignInManager<ApplicationUser> signInManager,
+		public AuthService(SignInManager<ApplicationUser> signInManager,
 								UserManager<ApplicationUser> userManager,
 								IOptions<AppJwtSettings> options,
 								INotificationContext notificationContext) : base(notificationContext)
@@ -38,12 +38,12 @@ namespace FinancialManager.Identity
 
 			var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
 
-			if (result.Succeeded)
+			if (!result.Succeeded)
 				return Result.Failure<UserResponse>("Username or password are not correct.");
 
 			var userResponse = _jwtBuilder.WithEmail(email)
 										   .WithJwtClaims()
-										   .WithUserClaims()
+										   .WithUserRoles()
 										   .BuildUserResponse();
 
 			return Result.Success(userResponse);

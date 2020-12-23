@@ -1,10 +1,10 @@
-using System.Linq;
+using System.Text.Json.Serialization;
 using AutoMapper;
+using FinancialManager.Infra.CrossCutting.IoC;
+using FinancialManager.Web.Server.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +25,14 @@ namespace FinancialManager.Web.Server
 		public void ConfigureServices(IServiceCollection services)
 		{
 
-			services.AddControllersWithViews();
+			services.AddControllersWithViews()
+					.AddJsonOptions(options =>
+					{
+						options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+						options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.Strict;
+						options.JsonSerializerOptions.IgnoreReadOnlyFields = true;
+						options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+					});
 			services.AddRazorPages();
 			services.AddHttpsRedirection(options =>
 			{
@@ -33,6 +40,8 @@ namespace FinancialManager.Web.Server
 				options.HttpsPort = 5025;
 			});
 			services.AddAutoMapper(typeof(Startup));
+			services.AddServices(Configuration);
+			services.ConfigureSwagger();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +66,7 @@ namespace FinancialManager.Web.Server
 				app.UseHsts();
 			}
 
+			app.UseSwaggerConfiguration();
 			app.UseHttpsRedirection();
 			app.UseBlazorFrameworkFiles();
 			app.UseStaticFiles();

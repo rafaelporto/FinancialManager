@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using CSharpFunctionalExtensions;
 using FinancialManager.Web.Shared.Models;
 using FinancialManager.Identity.Jwt;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinancialManager.Web.Server.Endpoints.Auth
 {
@@ -23,6 +24,13 @@ namespace FinancialManager.Web.Server.Endpoints.Auth
 			_mapper = mapper;
 		}
 
+		[HttpPost("auth/login")]
+		[SwaggerOperation(
+			Summary = "Login",
+			Description = "Login a user",
+			OperationId = "auth.login",
+			Tags = new[] { "AuthEndpoints" })
+		]
 		public async Task<IActionResult> HandleAsync(LoginRequest request)
 		{
 			return await _authService.Login(request.Email, request.Password)
