@@ -14,25 +14,22 @@ namespace FinancialManager.Identity.Jwt
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AppJwtSettings _appJwtSettings;
         private ApplicationUser _user;
-        private ICollection<Claim> _userClaims;
         private ICollection<Claim> _jwtClaims;
         private ClaimsIdentity _identityClaims;
 
 		public JwtBuilder(UserManager<ApplicationUser> userManager, AppJwtSettings appJwtSettings)
 		{
-            _userManager = userManager ?? throw new ArgumentException("Usermanager is required.", nameof(userManager));
-            _appJwtSettings = appJwtSettings ?? throw new ArgumentException(nameof(appJwtSettings));
+            _userManager = userManager ?? 
+                throw new ArgumentNullException(nameof(userManager),"Usermanager is required.");
+            _appJwtSettings = appJwtSettings ??
+                throw new ArgumentNullException(nameof(appJwtSettings), "AppJwtSettings is required.");
         }
 
         public JwtBuilder WithEmail(string email)
         {
-            if (string.IsNullOrEmpty(email)) throw new ArgumentException(nameof(email));
-
-            if (_userManager is null)
-                throw new InvalidOperationException("UserManager should not be null.");
+            if (email is null or "") throw new ArgumentException("Email is required.", nameof(email));
 
             _user = _userManager.FindByEmailAsync(email).Result;
-            _userClaims = new List<Claim>();
             _jwtClaims = new List<Claim>();
             _identityClaims = new ClaimsIdentity();
 
@@ -48,14 +45,6 @@ namespace FinancialManager.Identity.Jwt
             _jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
 
             _identityClaims.AddClaims(_jwtClaims);
-
-            return this;
-        }
-
-        public JwtBuilder WithUserClaims()
-        {
-            _userClaims = _userManager.GetClaimsAsync(_user).Result;
-            _identityClaims.AddClaims(_userClaims);
 
             return this;
         }
@@ -100,7 +89,7 @@ namespace FinancialManager.Identity.Jwt
                 UserToken = new UserToken
                 {
                     Email = _user.Email,
-                    Claims = _userClaims.Select(c => new UserClaim { Type = c.Type, Value = c.Value })
+                    Roles = _user.Roles as List<string>
                 }
             };
 
@@ -108,7 +97,8 @@ namespace FinancialManager.Identity.Jwt
         }
 
         private static long ToUnixEpochDate(DateTime date)
-            => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
-                .TotalSeconds);
+            => (long)Math.Round((date.ToUniversalTime() - 
+                                    new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
+                                .TotalSeconds);
     }
 }

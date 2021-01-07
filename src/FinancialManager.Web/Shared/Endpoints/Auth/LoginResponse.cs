@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FinancialManager.Web.Shared.Models;
 
 namespace FinancialManager.Web.Shared.Endpoints
 {
@@ -8,28 +7,28 @@ namespace FinancialManager.Web.Shared.Endpoints
 		public string AccessToken { get; }
 		public double ExpiresIn { get; }
 		public string Email { get; }
-		public IEnumerable<Claim> Claims { get; }
-		public IReadOnlyDictionary<string, string> Notifications { get; set; }
+		public IReadOnlyList<string> Roles { get; }
+		public IReadOnlyList<string> Notifications { get; set; }
 
-		private LoginResponse(string accessToken, double expiresIn, string email, IEnumerable<Claim> claims)
+		private LoginResponse(string accessToken, double expiresIn, string email, IList<string> roles)
 		{
 			AccessToken = accessToken;
 			ExpiresIn = expiresIn;
 			Email = email;
-			Claims = claims;
+			Roles = roles as IReadOnlyList<string>;
 		}
 
-		private LoginResponse(Dictionary<string, string> notifications) =>
-			Notifications = notifications;
+		private LoginResponse(IEnumerable<string> notifications) =>
+			Notifications = notifications as IReadOnlyList<string>;
 
 		public static LoginResponse Success(string accessToken,
 											double expiresIn,
 											string email,
-											IEnumerable<Claim> claims) =>
-			new LoginResponse(accessToken, expiresIn, email, claims);
+											IList<string> roles) =>
+			new LoginResponse(accessToken, expiresIn, email, roles);
 
-		public static LoginResponse Failure(IDictionary<string, string> notifications) =>
-			new LoginResponse(notifications as Dictionary<string, string>);
+		public static LoginResponse Failure(IEnumerable<string> notifications) =>
+			new LoginResponse(notifications);
 
 	}
 }

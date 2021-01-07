@@ -31,15 +31,24 @@ namespace FinancialManager.Identity
 		public async Task<Result<UserResponse>> Login(string email, string password)
 		{
 			if (email is null or "")
+			{
+				_notificationContext.AddNotification("Login", "Email can't be null or empty.");
 				return Result.Failure<UserResponse>("Email is required.");
+			}
 
 			if (password is null or "")
+			{
+				_notificationContext.AddNotification("Login", "Password can't be null or empty.");
 				return Result.Failure<UserResponse>("Password is required.");
+			}
 
 			var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
 
 			if (!result.Succeeded)
+			{
+				_notificationContext.AddNotification("Login", "Username or password are not correct.");
 				return Result.Failure<UserResponse>("Username or password are not correct.");
+			}
 
 			var userResponse = _jwtBuilder.WithEmail(email)
 										   .WithJwtClaims()
