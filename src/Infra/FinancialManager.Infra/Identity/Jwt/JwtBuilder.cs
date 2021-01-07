@@ -62,8 +62,14 @@ namespace FinancialManager.Identity.Jwt
 
         public JwtBuilder WithUserRoles()
         {
-            var userRoles = _userManager.GetRolesAsync(_user).Result;
-            userRoles.ToList().ForEach(r => _identityClaims.AddClaim(new Claim("role", r)));
+            if (_user.Roles?.Any() is true)
+                _user.GetRolesList().ForEach(r => _identityClaims.AddClaim(new Claim("role", r)));
+
+            else
+            { 
+                var userRoles = _userManager.GetRolesAsync(_user).Result;
+                userRoles.ToList().ForEach(r => _identityClaims.AddClaim(new Claim("role", r)));
+            }
 
             return this;
         }

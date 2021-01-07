@@ -3,35 +3,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
 using Raven.Client.Exceptions;
 
 namespace FinancialManager.Identity
 {
-    internal class RavenDbUserStore<TUser, TDocumentStore> : IUserStore<TUser>
-    where TUser : ApplicationUser
-    where TDocumentStore: class, IDocumentStore
+	internal partial class UserStore<TUser, TRole, TDocumentStore> 
+        : StoreBase<TRole, TDocumentStore>, IUserStore<TUser>
+        where TUser : ApplicationUser
+        where TRole : IdentityRole, new()
+        where TDocumentStore: class, IDocumentStore
     {
         public IdentityErrorDescriber ErrorDescriber { get; }
-        public TDocumentStore Context { get; }
 
-        private readonly Lazy<IAsyncDocumentSession> _session;
-
-        public RavenDbUserStore(TDocumentStore context, IdentityErrorDescriber errorDescriber = null)
-        {
-            ErrorDescriber = errorDescriber;
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-
-            _session = new Lazy<IAsyncDocumentSession>(() =>
-            {
-                var session = Context.OpenAsyncSession();
-                session.Advanced.UseOptimisticConcurrency = true;
-                return session;
-            }, true);
-        }
-
-        public IAsyncDocumentSession Session
-            => _session.Value;
+		public UserStore(TDocumentStore context, IdentityErrorDescriber errorDescriber = null)
+            : base(context) => ErrorDescriber = errorDescriber;
 
         public Task SaveChanges(CancellationToken cancellationToken = default) =>
             Session.SaveChangesAsync(cancellationToken);
@@ -41,10 +26,8 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -68,10 +51,8 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
             var stored = await Session.LoadAsync<TUser>(user.Id, cancellationToken);
 
@@ -94,10 +75,8 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
             Session.Delete(user.Id);
 
@@ -127,10 +106,8 @@ namespace FinancialManager.Identity
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return Task.FromResult(user.Id);
         }
@@ -140,10 +117,8 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return Task.FromResult(user.UserName);
         }
@@ -153,15 +128,11 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
-            if (userName == null)
-            {
+            if (userName is null)
                 throw new ArgumentNullException(nameof(userName));
-            }
 
             user.UserName = userName;
 
@@ -173,10 +144,8 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return Task.FromResult(user.NormalizedUserName);
         }
@@ -186,36 +155,15 @@ namespace FinancialManager.Identity
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
 
-            if (user == null)
-            {
+            if (user is null)
                 throw new ArgumentNullException(nameof(user));
-            }
 
-            if (normalizedName == null)
-            {
+            if (normalizedName is null)
                 throw new ArgumentNullException(nameof(normalizedName));
-            }
 
             user.NormalizedUserName = normalizedName;
 
             return Task.CompletedTask;
         }
-
-        #region IDisposable
-        private void ThrowIfDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().Name);
-            }
-        }
-
-        private bool _disposed;
-        public void Dispose()
-        {
-            Session.Dispose();
-            _disposed = true;
-        }
-        #endregion
     }
 }

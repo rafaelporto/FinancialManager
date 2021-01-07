@@ -57,7 +57,7 @@ namespace FinancialManager.Identity
 
 		private static IdentityBuilder AddRavenDBUserStore<TDocumentStore>(this IdentityBuilder builder)
 		{
-			var userStoreType = typeof(RavenDbUserStore<,>).MakeGenericType(builder.UserType, typeof(TDocumentStore));
+			var userStoreType = typeof(UserStore<,,>).MakeGenericType(builder.UserType, builder.RoleType, typeof(TDocumentStore));
 
 			builder.Services.AddScoped(typeof(IUserStore<>).MakeGenericType(builder.UserType),
 				userStoreType);
@@ -67,7 +67,7 @@ namespace FinancialManager.Identity
 
 		private static IdentityBuilder AddRavenDBRoleStore<TDocumentStore>(this IdentityBuilder builder)
 		{
-			var roleStoreType = typeof(RavenDbRoleStore<,>).MakeGenericType(builder.RoleType, typeof(TDocumentStore));
+			var roleStoreType = typeof(RoleStore<,>).MakeGenericType(builder.RoleType, typeof(TDocumentStore));
 
 			builder.Services.AddScoped(typeof(IRoleStore<>).MakeGenericType(builder.RoleType),
 				roleStoreType);

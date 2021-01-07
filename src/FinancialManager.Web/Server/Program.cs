@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using FinancialManager.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +26,7 @@ namespace FinancialManager.Web.Server
 				try
 				{
 					var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-					var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+					var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
 					await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
 				}

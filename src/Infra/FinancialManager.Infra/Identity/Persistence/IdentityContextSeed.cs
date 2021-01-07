@@ -1,42 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FinancialManager.Identity;
 using Microsoft.AspNetCore.Identity;
+using Raven.Client.Documents;
 
 namespace FinancialManager.Infra.CrossCutting.Identity.Persistence
 {
-    public static class IdentityContextSeed
-    {
-        public static class ApplicationDbContextSeed
-        {
-            public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager)
-            {
-				try
+	public static class IdentityContextSeed
+	{
+		public static class ApplicationDbContextSeed
+		{
+			public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager,
+															RoleManager<IdentityRole> roleManager)
+			{
+				var administratorRole = new IdentityRole("Administrator");
+
+				if (await roleManager.Roles.AnyAsync(r => r.Name == administratorRole.Name) is false)
+					await roleManager.CreateAsync(administratorRole);
+
+				var administrator = new ApplicationUser { UserName = "rafampo@hotmail.com", Email = "rafampo@hotmail.com" };
+
+				if (await userManager.Users?.AnyAsync(u => u.UserName == administrator.UserName) is false)
 				{
-					var administratorRole = new IdentityRole<Guid>("Administrator");
-
-					if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
-					{
-						await roleManager.CreateAsync(administratorRole);
-					}
-
-					var administrator = new ApplicationUser { UserName = "rafampo@hotmail.com", Email = "rafampo@hotmail.com" };
-
-					if (userManager.Users.All(u => u.UserName != administrator.UserName))
-					{
-						await userManager.CreateAsync(administrator, "123456");
-						await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
-					}
+					await userManager.CreateAsync(administrator, "123456");
+					await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
 				}
-				catch (Exception e)
-				{
 
-					throw e;
-				}
-            }
-        }
-    }
+			}
+		}
+	}
 }
