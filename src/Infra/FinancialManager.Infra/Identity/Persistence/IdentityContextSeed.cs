@@ -17,7 +17,7 @@ namespace FinancialManager.Infra.CrossCutting.Identity.Persistence
 				if (await roleManager.Roles.AnyAsync(r => r.Name == administratorRole.Name) is false)
 					await roleManager.CreateAsync(administratorRole);
 
-				var administrator = new ApplicationUser { UserName = "rafampo@hotmail.com", Email = "rafampo@hotmail.com" };
+				ApplicationUser administrator = ApplicationUser.NewUser("Rafael","Monteiro Porto","rafampo@hotmail.com", "62981238109");
 
 				if (await userManager.Users?.AnyAsync(u => u.UserName == administrator.UserName) is false)
 				{

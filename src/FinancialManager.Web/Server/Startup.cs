@@ -66,6 +66,7 @@ namespace FinancialManager.Web.Server
 			app.UseStaticFiles();
 
 			app.UseRouting();
+			app.UseServicesMiddleware();
 
 			app.UseEndpoints(endpoints =>
 			{

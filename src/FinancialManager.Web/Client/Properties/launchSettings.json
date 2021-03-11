@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:63641",
-      "sslPort": 44353
-    }
-  },
   "profiles": {
     "FinancialManager.Web": {
       "commandName": "Project",
@@ -15,6 +7,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
+      "nativeDebugging": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}"
     }

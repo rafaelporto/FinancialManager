@@ -14,18 +14,20 @@ namespace FinancialManager.Identity
 		public static ApplicationUser NewUser(string firstName, string lastName, string email, string phoneNumber) =>
 			new ApplicationUser
 			{
-				FirstName = firstName,
-				LastName = lastName,
-				Email = email,
-				UserName = email,
-				PhoneNumber = phoneNumber
+				FirstName = firstName.Trim(),
+				LastName = lastName.Trim(),
+				Email = email.Trim(),
+				UserName = email.Trim(),
+				PhoneNumber = phoneNumber.Trim()
 			};
 
 		public string FirstName { get; init; }
 		public string LastName { get; init; }
-		public List<UserLoginInfo> Logins { get; set; }
+
+		public string FullName => FirstName + " " + LastName; 
+        public List<UserLoginInfo> Logins { get; set; }
 		public virtual IReadOnlyList<string> Roles { get; private set; } = new List<string>();
-		internal List<string> GetRolesList() => (List<string>)Roles;
+		internal List<string> GetRolesList() => Roles as List<string>;
 
 		[JsonIgnore]
 		public IReadOnlyList<ValidationFailure> ValidationResults => Validations?.Errors.ToList();

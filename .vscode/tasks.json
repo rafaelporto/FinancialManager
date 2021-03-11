@@ -4,7 +4,7 @@
       {
         "label": "Shared Build",
         "command": "dotnet",
-        "args": ["build"],
+        "args": ["build", "--force"],
         "options": {
           "cwd": "${workspaceFolder}/src/FinancialManager.Web/Shared/"
         }
@@ -12,7 +12,7 @@
       {
         "label": "Client Build",
         "command": "dotnet",
-        "args": ["build"],
+        "args": ["build", "--force"],
         "options": {
           "cwd": "${workspaceFolder}/src/FinancialManager.Web/Client/"
         }
@@ -20,14 +20,14 @@
       {
         "label": "Server Build",
         "command": "dotnet",
-        "args": ["build"],
+        "args": ["build", "--force"],
         "options": {
           "cwd": "${workspaceFolder}/src/FinancialManager.Web/Server/"
         }
       },
       {
-        "label": "Build",
-        "dependsOn": ["Shared Build", "Client Build", "Server Build"]
+        "label": "build",
+        "dependsOn": ["Shared Build", "Server Build", "Client Build"]
       }
     ]
   }

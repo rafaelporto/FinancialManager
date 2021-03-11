@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infra\FinancialManager.Infra\FinancialManager.Infra.CrossCutting.csproj" />
-    <ProjectReference Include="..\Client\FinancialManager.Web.Client.csproj" />
     <ProjectReference Include="..\Shared\FinancialManager.Web.Shared.csproj" />
   </ItemGroup>
 

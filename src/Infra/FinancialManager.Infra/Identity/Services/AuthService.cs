@@ -2,15 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using FinancialManager.Core.Bases;
 using FinancialManager.Identity.Jwt;
-using FinancialManager.Notifications;
+using FinancialManager.Infra.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 namespace FinancialManager.Identity
 {
-	internal class AuthService : BaseService, IAuthService
+	internal class AuthService : IAuthService
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly UserManager<ApplicationUser> _userManager;
@@ -19,8 +18,7 @@ namespace FinancialManager.Identity
 
 		public AuthService(SignInManager<ApplicationUser> signInManager,
 								UserManager<ApplicationUser> userManager,
-								IOptions<AppJwtSettings> options,
-								INotificationContext notificationContext) : base(notificationContext)
+								IOptions<AppJwtSettings> options)
 		{
 			_jwtSettings = options?.Value ?? throw new ArgumentNullException("Jwt settings must be set.");
 			_signInManager = signInManager;
@@ -28,27 +26,15 @@ namespace FinancialManager.Identity
 			_jwtBuilder = new JwtBuilder(_userManager, _jwtSettings);
 		}
 
-		public async Task<Result<UserResponse>> Login(string email, string password)
+		public async Task<Result<UserResponse>> Login(Email email, string password)
 		{
-			if (email is null or "")
-			{
-				_notificationContext.AddNotification("Login", "Email can't be null or empty.");
-				return Result.Failure<UserResponse>("Email is required.");
-			}
-
 			if (password is null or "")
-			{
-				_notificationContext.AddNotification("Login", "Password can't be null or empty.");
-				return Result.Failure<UserResponse>("Password is required.");
-			}
-
+				return Result.Failure<UserResponse>("Password can't be null or empty.");
+			
 			var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
 
 			if (!result.Succeeded)
-			{
-				_notificationContext.AddNotification("Login", "Username or password are not correct.");
 				return Result.Failure<UserResponse>("Username or password are not correct.");
-			}
 
 			var userResponse = _jwtBuilder.WithEmail(email)
 										   .WithJwtClaims()

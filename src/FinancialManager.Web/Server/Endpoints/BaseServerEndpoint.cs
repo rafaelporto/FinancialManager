@@ -1,13 +1,26 @@
-﻿using Ardalis.ApiEndpoints;
-using FinancialManager.Notifications;
+﻿using System.Threading.Tasks;
+using Ardalis.ApiEndpoints;
+using FinancialManager.Identity;
+using FinancialManager.Shared.Models;
+using Microsoft.AspNetCore.Authentication;
 
-namespace FinancialManager.Web.Server.Endpoints
+namespace FinancialManager.Server.Endpoints
 {
-	public abstract class BaseServerEndpoint : BaseAsyncEndpoint
+    public abstract class BaseServerEndpoint : BaseAsyncEndpoint
 	{
-		protected readonly INotificationContext _notifications;
+		protected async Task<UserInfo> CurrentUserInfo()
+		{
+			var userInfo = UserInfo.Anonymous;
+			if (User.Identity.IsAuthenticated)
+			{
+				userInfo.AccessToken = await HttpContext.GetTokenAsync("access_token");
+				userInfo.Email = User.GetEmail();
+				userInfo.IsAuthenticated = true;
+				userInfo.Roles = User.GetRoles();
+				userInfo.Name = User.GetName();
+			}
 
-		public BaseServerEndpoint(INotificationContext notifications) =>
-			_notifications = notifications;
+			return userInfo;
+		}
 	}
 }

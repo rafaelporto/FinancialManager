@@ -32,6 +32,9 @@ namespace FinancialManager.Identity.Jwt
             _user = _userManager.FindByEmailAsync(email).Result;
             _jwtClaims = new List<Claim>();
             _identityClaims = new ClaimsIdentity();
+            
+            _identityClaims.AddClaim(new Claim(JwtRegisteredClaimNames.GivenName, _user.FullName));
+            _identityClaims.AddClaim(new Claim(JwtRegisteredClaimNames.Email, _user.Email));
 
             return this;
         }
@@ -39,8 +42,6 @@ namespace FinancialManager.Identity.Jwt
         public JwtBuilder WithJwtClaims()
         {
             _jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, _user.Id.ToString()));
-            _jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Email, _user.Email));
-            _jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             _jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
             _jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
 
@@ -52,13 +53,10 @@ namespace FinancialManager.Identity.Jwt
         public JwtBuilder WithUserRoles()
         {
             if (_user.Roles?.Any() is true)
-                _user.GetRolesList().ForEach(r => _identityClaims.AddClaim(new Claim("role", r)));
-
-            else
-            { 
-                var userRoles = _userManager.GetRolesAsync(_user).Result;
-                userRoles.ToList().ForEach(r => _identityClaims.AddClaim(new Claim("role", r)));
-            }
+                foreach (var role in _user.Roles)
+                {
+                    _identityClaims.AddClaim(new Claim(ClaimTypes.Role, role));
+                }
 
             return this;
         }
@@ -85,11 +83,11 @@ namespace FinancialManager.Identity.Jwt
             var user = new UserResponse
             {
                 AccessToken = BuildToken(),
-                ExpiresIn = TimeSpan.FromHours(_appJwtSettings.Expiration).TotalSeconds,
+                ExpiresIn = DateTimeOffset.UtcNow.AddHours(_appJwtSettings.Expiration),
                 UserToken = new UserToken
                 {
                     Email = _user.Email,
-                    Roles = _user.Roles as List<string>
+                    Roles = _user.Roles
                 }
             };
 
@@ -97,8 +95,6 @@ namespace FinancialManager.Identity.Jwt
         }
 
         private static long ToUnixEpochDate(DateTime date)
-            => (long)Math.Round((date.ToUniversalTime() - 
-                                    new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
-                                .TotalSeconds);
+            => (long)Math.Round((date.ToUniversalTime() - DateTimeOffset.UnixEpoch).TotalSeconds);
     }
 }

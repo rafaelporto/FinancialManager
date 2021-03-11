@@ -1,0 +1,29 @@
+﻿@*@inject NavigationManager Navigation
+
+    @code {
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var authenticationState = await AuthenticationStateTask;
+
+            if (authenticationState?.User?.Identity is null || !authenticationState.User.Identity.IsAuthenticated)
+            {
+                if (Navigation.Uri == Navigation.BaseUri)
+                    Navigation.NavigateTo("authentication/login");
+
+                else
+                    Navigation.NavigateTo($"authentication/login?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
+            }
+        }
+    }*@
+
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@code {
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo($"authentication/login?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
+    }
+}

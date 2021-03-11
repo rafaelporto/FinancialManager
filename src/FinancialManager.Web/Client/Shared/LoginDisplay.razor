@@ -1,0 +1,13 @@
+﻿@using FinancialManager.Client.Features.Authentication
+@using BlazorState
+@inherits BlazorStateComponent
+
+<AuthorizeView>
+    <Authorized>
+        Hello, @AuthState.Name!
+        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>

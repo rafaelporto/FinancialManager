@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:63641",
-      "sslPort": 44353
-    }
-  },
   "profiles": {
     "FinancialManager.Web.Server": {
       "commandName": "Project",

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Text;
 using FinancialManager.Identity.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Raven.Client.Documents;
 
 namespace FinancialManager.Identity
@@ -13,8 +17,9 @@ namespace FinancialManager.Identity
 		internal static IServiceCollection AddIdentityConfiguration(this IServiceCollection services, IConfiguration configuration)
 		{
 			if (services is null)
-				throw new ArgumentException($"{nameof(services)} is required for configure identity.");
+				throw new ArgumentException("Is required for configure identity.", nameof(services));
 
+			var appJwtSettings = configuration.GetSection(AppJwtSettings.CONFIG_NAME).Get<AppJwtSettings>();
 			services.Configure<AppJwtSettings>(configuration.GetSection(AppJwtSettings.CONFIG_NAME));
 
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -36,7 +41,28 @@ namespace FinancialManager.Identity
 
 			}).UseRavenDBDataStoreAdaptor<IDocumentStore>();
 
-			services.AddScoped<IUserService, UserService>();
+            services.AddAuthentication(authOptions =>
+            {
+				authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(bearerOptions =>
+			{
+				var paramsValidation = bearerOptions.TokenValidationParameters;
+				paramsValidation.IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appJwtSettings.SecretKey));
+				paramsValidation.ValidAudience = appJwtSettings.Audience;
+				paramsValidation.ValidIssuer = appJwtSettings.Issuer;
+				paramsValidation.ValidateIssuerSigningKey = true;
+				paramsValidation.ValidateAudience = true;
+				paramsValidation.ValidateLifetime = true;
+			});
+
+			services.AddAuthorization(options => 
+			{
+				options.FallbackPolicy = new AuthorizationPolicyBuilder()
+											.RequireAuthenticatedUser()
+											.Build();
+			});
+
+            services.AddScoped<IUserService, UserService>();
 
 			return services;
 		}

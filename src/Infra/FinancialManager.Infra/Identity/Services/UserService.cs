@@ -1,22 +1,12 @@
-﻿using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
-using FinancialManager.Notifications;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
-using System.Threading;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace FinancialManager.Identity
 {
-	internal class UserService : IUserService
+    internal class UserService : IUserService
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly INotificationContext _notificationContext;
 
-		public UserService(UserManager<ApplicationUser> userManager,
-							INotificationContext notificationContext)
-		{
+		public UserService(UserManager<ApplicationUser> userManager) =>
 			_userManager = userManager;
-			_notificationContext = notificationContext;
-		}
 	}
 }
