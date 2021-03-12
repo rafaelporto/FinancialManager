@@ -4,7 +4,6 @@
 
 <EditForm Model="@_loginRequest" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
-    <ValidationSummary />
     <div class="mb-3">
         <label class="form-label">Email address</label>
         <InputText type="email" @bind-Value="_loginRequest.Email" class="form-control" />
