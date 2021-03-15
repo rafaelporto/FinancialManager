@@ -7,10 +7,9 @@ namespace FinancialManager.Client.Features.Authentication
     {
         public class LoginAction : IAction
         {
-            public LoginRequest LoginRequest { get; init; }
+            public string AccessToken { get; init; }
 
-            public LoginAction(LoginRequest loginRequest) =>
-                LoginRequest = loginRequest;
+            public LoginAction(string accessToken) => AccessToken = accessToken;
         }
     }
 }

@@ -2,15 +2,32 @@
 
 <h1>Financial Manager</h1>
 
-<EditForm Model="@_loginRequest" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@_loginRequest">
     <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label class="form-label">Email address</label>
-        <InputText type="email" @bind-Value="_loginRequest.Email" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Password</label>
-        <InputText type="password" @bind-Value="_loginRequest.Password" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <Fields>
+        <Field ColumnSize="ColumnSize.Is6">
+            <Validations Mode="ValidationMode.Auto" Model="@_loginRequest" ValidateOnLoad="false">
+                <Validation>
+                    <TextEdit Role="TextRole.Email" @bind-Text="_loginRequest.Email" Placeholder="Enter email">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </Validation>
+                <Validation>
+                    <TextEdit Role="TextRole.Password" @bind-Text="_loginRequest.Password">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </Validation>
+            </Validations>
+        </Field>
+    </Fields>
+    <Button Type="ButtonType.Submit"
+            Color="Color.Primary"
+            Loading="_showLoading"
+            Clicked="SubmitLogin">
+        Login
+    </Button>
 </EditForm>

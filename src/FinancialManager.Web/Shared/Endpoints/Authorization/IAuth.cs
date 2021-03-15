@@ -7,7 +7,7 @@ namespace FinancialManager.Endpoints.Authorization
     public interface IAuth
     {
         [Post("/auth/login")]
-        Task<LoginResponse> Login(LoginRequest loginRequest);
+        Task<ApiResult<LoginResponse>> Login(LoginRequest loginRequest);
 
         [Get("/auth/user")]
         Task<UserInfo> User();
