@@ -13,7 +13,7 @@ namespace FinancialManager.Web.Client.Shared
         private async Task BeginSignOut()
         {
             await Mediator.Send(new AuthState.LogoutAction());
-            Navigation.NavigateTo("authentication/logout");
+            Navigation.NavigateTo("/");
         }
     }
 }

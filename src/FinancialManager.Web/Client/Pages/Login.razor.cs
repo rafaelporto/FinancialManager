@@ -29,6 +29,8 @@ namespace FinancialManager.Web.Client.Pages
 
         private bool _showLoading = false;
 
+        private Validations Validations { get; set; }
+
         protected override Task OnInitializedAsync()
         {
             ReturnUrl = HttpUtility.ParseQueryString(new Uri(Navigation.Uri).Query)["returnUrl"];
@@ -39,43 +41,28 @@ namespace FinancialManager.Web.Client.Pages
         {
             _showLoading = true;
 
-            try
+            if (Validations.ValidateAll())
             {
-                var result = await AuthClient.Login(_loginRequest);
+                Validations.ClearAll();
 
-                if (result.IsSuccessed)
+                try
                 {
-                    await Mediator.Send(new AuthState.LoginAction(result.Content.AccessToken));
-                    _showLoading = false;
-                    Navigation.NavigateTo(ReturnUrl ?? Navigation.BaseUri);
+                    var result = await AuthClient.Login(_loginRequest);
+
+                    if (result.IsSuccessed)
+                    {
+                        await Mediator.Send(new AuthState.LoginAction(result.Content.AccessToken));
+                        Navigation.NavigateTo(ReturnUrl ?? Navigation.BaseUri);
+                    }
+                }
+                catch (ApiException e)
+                {
+                    var errorObj = await e.GetContentAsAsync<ApiResult<LoginResponse>>();
+                    Console.WriteLine($"Status code: {e.StatusCode}");
+                    Console.WriteLine($"Notifications: {errorObj.Notifications}");
                 }
             }
-            catch (ApiException e)
-            {
-                var errorObj = await e.GetContentAsAsync<ApiResult<LoginResponse>>();
-                Console.WriteLine($"Status code: {e.StatusCode}");
-                Console.WriteLine($"Notifications: {errorObj.Notifications}");
-                _showLoading = false;
-            }
-        }
-        
-        static void ValidateEmail(ValidatorEventArgs e)
-        {
-            var email = Convert.ToString(e.Value);
-
-            var patternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
-                + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
-                + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
-                + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
-                + @"[a-zA-Z]{2,}))$";
-
-            Regex regexStrict = new Regex(patternStrict);
-
-            if (string.IsNullOrEmpty(email))
-                e.Status = ValidationStatus.None;
-
-            else if (!regexStrict.IsMatch(email))
-                e.Status = ValidationStatus.Error;
+            _showLoading = false;
         }
     }
 }
