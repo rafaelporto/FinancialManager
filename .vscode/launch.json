@@ -5,33 +5,39 @@
             "name": "Server",
             "type": "coreclr",
             "request": "launch",
+            "preLaunchTask": "Server Build",
             "program": "${workspaceFolder}/src/FinancialManager.Web/Server/bin/Debug/net5.0/FinancialManager.Web.Server.dll",
-            "args": [
-                "url https://localhost:5025;http://localhost:5020"
-            ],
             "cwd": "${workspaceFolder}/src/FinancialManager.Web/Server",
             "console": "internalConsole",
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "https://localhost:5025;http://localhost:5020"
+            }
         },
         {
             "name": "Client",
             "type": "blazorwasm",
             "request": "launch",
-            "cwd": "${workspaceFolder}/src/FinancialManager.Web/Client/",
-            "url": "https://localhost:5001",
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            }
+            "browser": "chrome",
+            "cwd": "${workspaceFolder}/src/FinancialManager.Web/Client/"
+        },
+        {
+            "name": "Docker Server",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj"
+            },
+            "removeContainerAfterDebug": true
         }
     ],
     "compounds": [
         {
-          "name": "Server/Client",
-          "preLaunchTask": "build",
-          "configurations": ["Server", "Client"]
+          "name": "Docker Server/Client",
+          "preLaunchTask": "Client Build",
+          "configurations": ["Docker Server", "Client"]
         }
       ]
 }

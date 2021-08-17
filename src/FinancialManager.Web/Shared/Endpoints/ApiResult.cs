@@ -7,7 +7,11 @@ namespace FinancialManager.Endpoints
     {
         public T Content { get; set; }
         public virtual IReadOnlyList<string> Notifications { get; }
+
+        [JsonIgnore]
         public virtual bool IsSuccessed => Notifications is null || Notifications.Count == 0;
+        
+        [JsonIgnore]
         public virtual bool IsFailure => IsSuccessed is false;
 
         [JsonConstructor]

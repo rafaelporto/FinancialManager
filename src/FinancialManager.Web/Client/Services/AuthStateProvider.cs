@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Principal;
 
 namespace FinancialManager.Client.Services
 {
@@ -43,11 +44,13 @@ namespace FinancialManager.Client.Services
             await _localStorageService.SetItemAsync(ACCESS_TOKEN, token);
 
             var claims = ParseClaimsFromJwt(token);
+            var givenNameClaim = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.GivenName);
 
             var identity = new ClaimsIdentity(new[]
             {
-                claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.GivenName),
+                givenNameClaim,
                 claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Email),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, givenNameClaim.Value)
             }, BEARER);
 
             foreach (var role in claims.Where(p => p.Type == ClaimTypes.Role))

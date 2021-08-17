@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using FinancialManager.Endpoints;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,5 +10,6 @@ namespace FinancialManager.Server.Endpoints
 		: BaseAsyncEndpoint
 	{
 		public abstract Task<ApiResult<TResponse>> HandleAsync(TRequest request);
+		protected void SetStatusCode(HttpStatusCode statusCode) => Response.StatusCode = (int)statusCode;
 	}
 }

@@ -1,21 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using BlazorState;
+using FinancialManager.Client.Features.Authentication;
 
 namespace FinancialManager.Web.Client.Pages
 {
-    public partial class Index : ComponentBase
+    public partial class Index
     {
-        [CascadingParameter]
-        private Task<AuthenticationState> AuthState { get; set; }
-        private ClaimsPrincipal User { get; set; }
-
-        protected override async Task OnParametersSetAsync()
-        {
-            User = (await AuthState).User;
-
-            await base.OnParametersSetAsync();
-        }
+        AuthState AuthState => GetState<AuthState>();
     }
 }
