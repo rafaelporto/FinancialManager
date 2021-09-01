@@ -1,5 +1,7 @@
-﻿@page "/"
+﻿@using FinancialManager.Client.Features.Authentication
+@using BlazorState
+@inherits BlazorStateComponent
+@page "/"
 
-<h1>Hello, @User?.Identity?.Name!</h1>
+<h1>Hello, @AuthState.Name!</h1>
 <p>You can only see this content if you're authorized.</p>
-

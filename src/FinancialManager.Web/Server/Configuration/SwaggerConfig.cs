@@ -16,27 +16,27 @@ namespace FinancialManager.Web.Server.Configuration
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Manager", Version = "v1" });
 				c.AddSecurityDefinition("Bearer",
-		new OpenApiSecurityScheme
-		{
-			In = ParameterLocation.Header,
-			Description = "Please enter into field the word 'Bearer' following by space and JWT",
-			Name = "Authorization",
-			Type = SecuritySchemeType.ApiKey
-		});
+				new OpenApiSecurityScheme
+				{
+					In = ParameterLocation.Header,
+					Description = "Please enter into field the word 'Bearer' following by space and JWT",
+					Name = "Authorization",
+					Type = SecuritySchemeType.ApiKey
+				});
 				c.AddSecurityRequirement(new OpenApiSecurityRequirement
-			{
-				   {
-					 new OpenApiSecurityScheme
-					 {
-					   Reference = new OpenApiReference
-					   {
-						 Type = ReferenceType.SecurityScheme,
-						 Id = "Bearer"
-					   }
-					  },
-					  Array.Empty<string>()
-				   }
-			});
+				{
+					{
+						new OpenApiSecurityScheme
+						{
+							Reference = new OpenApiReference
+							{
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer"
+							}
+						},
+						Array.Empty<string>()
+					}
+				});
 				c.EnableAnnotations();
 			});
 
@@ -49,7 +49,11 @@ namespace FinancialManager.Web.Server.Configuration
 				throw new ArgumentException($"{nameof(app)} is required for configure swagger middleware.");
 
 			app.UseSwagger();
-			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.Web v1"));
+			app.UseSwaggerUI(c => 
+				{
+					c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.Web v1");
+					c.RoutePrefix = string.Empty;
+				});
 
 			return app;
 		}

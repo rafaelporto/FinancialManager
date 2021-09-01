@@ -16,7 +16,7 @@ namespace FinancialManager.Infra.Data
         {
             DocumentStore store = new()
             {
-                Urls = new[] { "http://localhost:8080" },
+                Urls = new[] { "http://172.17.0.1:8080" },
                 Conventions =
                 {
                     MaxNumberOfRequestsPerSession = 10,

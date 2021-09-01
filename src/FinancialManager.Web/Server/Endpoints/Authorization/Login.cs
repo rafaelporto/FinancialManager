@@ -32,7 +32,7 @@ namespace FinancialManager.Server.Endpoints.Authorization
 		{
 			return await Email.Create(request.Email)
 								.Bind(email => _authService.Login(email, request.Password))
-								.OnFailure(() => Response.StatusCode = (int)HttpStatusCode.BadRequest)
+								.OnFailure(() => SetStatusCode(HttpStatusCode.BadRequest))
 								.Finally(result => result.IsSuccess ?
 									ApiResult.Success(new LoginResponse(result.Value.AccessToken,
 													result.Value.ExpiresIn,

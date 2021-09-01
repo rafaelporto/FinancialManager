@@ -2,14 +2,13 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5020
+EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj", "src/FinancialManager.Web/Server/"]
 COPY ["src/FinancialManager.Web/Shared/FinancialManager.Web.Shared.csproj", "src/FinancialManager.Web/Shared/"]
-COPY ["src/FinancialManager.Web/Client/FinancialManager.Web.Client.csproj", "src/FinancialManager.Web/Client/"]
 COPY ["src/Infra/FinancialManager.Infra/FinancialManager.Infra.CrossCutting.csproj", "src/Infra/FinancialManager.Infra/"]
 RUN dotnet restore "src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj"
 COPY . .

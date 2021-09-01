@@ -4,7 +4,10 @@
       {
         "label": "Shared Build",
         "command": "dotnet",
-        "args": ["build", "--force"],
+        "args": [
+          "build",
+          "--force"
+        ],
         "options": {
           "cwd": "${workspaceFolder}/src/FinancialManager.Web/Shared/"
         }
@@ -12,7 +15,10 @@
       {
         "label": "Client Build",
         "command": "dotnet",
-        "args": ["build", "--force"],
+        "args": [
+          "build",
+          "--force"
+        ],
         "options": {
           "cwd": "${workspaceFolder}/src/FinancialManager.Web/Client/"
         }
@@ -20,14 +26,98 @@
       {
         "label": "Server Build",
         "command": "dotnet",
-        "args": ["build", "--force"],
+        "args": [
+          "build",
+          "--force"
+        ],
         "options": {
           "cwd": "${workspaceFolder}/src/FinancialManager.Web/Server/"
         }
       },
       {
         "label": "build",
-        "dependsOn": ["Shared Build", "Server Build", "Client Build"]
+        "dependsOn": [
+          "Shared Build",
+          "Server Build",
+          "Client Build"
+        ]
+      },
+      {
+        "type": "docker-build",
+        "label": "docker-build: debug",
+        "dependsOn": [
+          "build"
+        ],
+        "dockerBuild": {
+          "tag": "financialmanager:dev",
+          "target": "base",
+          "dockerfile": "${workspaceFolder}/src/FinancialManager.Web/Server/Dockerfile",
+          "context": "${workspaceFolder}",
+          "pull": true
+        },
+        "netCore": {
+          "appProject": "${workspaceFolder}/src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj"
+        }
+      },
+      {
+        "type": "docker-build",
+        "label": "docker-build: release",
+        "dependsOn": [
+          "build"
+        ],
+        "dockerBuild": {
+          "tag": "financialmanager:latest",
+          "dockerfile": "${workspaceFolder}/src/FinancialManager.Web/Server/Dockerfile",
+          "context": "${workspaceFolder}",
+          "pull": true
+        },
+        "netCore": {
+          "appProject": "${workspaceFolder}/src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj"
+        }
+      },
+      {
+        "type": "docker-run",
+        "label": "docker-run: debug",
+        "dependsOn": [
+          "docker-build: debug"
+        ],
+        "dockerRun": {
+          "containerName": "financialManager-debug",
+          "env": {
+            "ASPNETCORE_ENVIRONMENT": "Development",
+            "ASPNETCORE_URLS": "https://+:5025;http://+:5020"
+          },
+          "ports": [
+            {
+              "hostPort": 5020,
+              "containerPort": 5020,
+              "protocol": "tcp"
+            },
+            {
+              "hostPort": 5025,
+              "containerPort": 5025,
+              "protocol": "tcp"
+            }
+          ],
+          "remove": true,
+          "customOptions": "--hostname server-debug"
+        },
+        "netCore": {
+          "appProject": "${workspaceFolder}/src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj",
+          "enableDebugging": true,
+          "configureSsl": true
+        }        
+      },
+      {
+        "type": "docker-run",
+        "label": "docker-run: release",
+        "dependsOn": [
+          "docker-build: release"
+        ],
+        "dockerRun": {},
+        "netCore": {
+          "appProject": "${workspaceFolder}/src/FinancialManager.Web/Server/FinancialManager.Web.Server.csproj"
+        }
       }
     ]
   }
