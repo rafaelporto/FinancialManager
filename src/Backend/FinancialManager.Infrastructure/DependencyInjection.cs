@@ -1,7 +1,10 @@
 ﻿using FinancialManager.Core;
-using FinancialManager.Core.Communication;
+using FinancialManager.FinancialAccounts.Application;
+using FinancialManager.FinancialAccounts.Data;
+using FinancialManager.FinancialAccounts.Domain;
 using FinancialManager.Infrastructure.Identity;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,13 +14,30 @@ namespace FinancialManager.Infrastructure
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IMediatorHandler, MediatorHandler>();
-            services.AddScoped<INotificationHandler<Notification>, NotificationHandler>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IScopeControl, ScopeControl>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
 
-            services.AddScoped<IAuthService, AuthService>();
+            services.RegisterFinancialAccountServices(configuration);
 
             services.AddIdentityLayer(configuration);
-            services.AddMediatR(typeof(NotificationHandler));
+
+            return services;
+        }
+
+        internal static IServiceCollection RegisterFinancialAccountServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            var assemblyDbContext = typeof(AccountContext).Assembly.GetName().Name;
+
+            services.AddDbContext<AccountContext>(options =>
+                            options.UseSqlServer(configuration.GetConnectionString("Default"), b =>
+                            {
+                                b.MigrationsAssembly(assemblyDbContext);
+                                b.MigrationsHistoryTable("MigrationAccountHistory");
+                            }));
+
+            services.AddScoped<IAccountAppService, AccoutAppService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
             return services;
         }

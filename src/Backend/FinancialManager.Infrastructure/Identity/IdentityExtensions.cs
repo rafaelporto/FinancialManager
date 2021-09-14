@@ -6,7 +6,7 @@ namespace FinancialManager.Infrastructure.Identity
 {
     public static class IdentityExtensions
     {
-        public static IReadOnlyList<Notification> MapToDomainNotification(this IEnumerable<IdentityError> errors)
+        public static IReadOnlyList<Notification> MapToNotification(this IEnumerable<IdentityError> errors)
         {
             List<Notification> result = new();
 

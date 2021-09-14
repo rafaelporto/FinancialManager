@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using FinancialManager.Core.Extensions;
+using FluentValidation;
 using System.Linq;
 
 namespace FinancialManager.Infrastructure.Identity
@@ -14,7 +15,7 @@ namespace FinancialManager.Infrastructure.Identity
 				.NotEmpty()
 				.MinimumLength(3)
 				.MaximumLength(20)
-				.Must(NotContainsSpecialCaracters).WithMessage("{PropertyName} must not have any special character.");
+				.Must(StringExtensions.NotContainsSpecialCaracters).WithMessage("{PropertyName} must not have any special character.");
 
 			RuleFor(p => p.LastName)
 				.Cascade(CascadeMode.Stop)
@@ -22,10 +23,7 @@ namespace FinancialManager.Infrastructure.Identity
 				.NotEmpty()
 				.MinimumLength(3)
 				.MaximumLength(50)
-				.Must(NotContainsSpecialCaracters).WithMessage("{PropertyName} must not have any special character.");
+				.Must(StringExtensions.NotContainsSpecialCaracters).WithMessage("{PropertyName} must not have any special character.");
 		}
-
-		private bool NotContainsSpecialCaracters(string value) =>
-			!value.Any(s => !char.IsLetterOrDigit(s) && !char.IsWhiteSpace(s));
 	}
 }

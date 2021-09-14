@@ -39,6 +39,8 @@ namespace FinancialManager.Infrastructure.Identity
                 options.FallbackPolicy = BuildRequiredAuthenticatePolicy();
             });
 
+            services.AddScoped<IAuthService, AuthService>();
+
             return services;
         }
 

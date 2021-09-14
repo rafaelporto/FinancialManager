@@ -1,9 +1,8 @@
-﻿using MediatR;
-using System;
+﻿using System;
 
 namespace FinancialManager.Core
 {
-    public class Notification : IMessage, INotification
+    public class Notification
     {
         public DateTimeOffset Timestamp { get; } = DateTimeOffset.Now;
         public string Key { get; private set; }

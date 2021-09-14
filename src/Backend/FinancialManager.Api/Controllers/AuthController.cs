@@ -1,6 +1,5 @@
 ﻿using FinancialManager.Core;
 using FinancialManager.Infrastructure.Identity;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace FinancialManager.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ManagerController
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService, INotificationHandler<Notification> notificationHandler)
-            : base(notificationHandler)
+        public AuthController(IAuthService authService, IScopeControl scopeControl)
+            : base(scopeControl)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
         }
@@ -34,8 +31,8 @@ namespace FinancialManager.Api.Controllers
         }
 
         [HttpPost("register")]
-        [ProducesResponseType(null, (int)HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ApiResult), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterModel model, CancellationToken token = default)
         {
