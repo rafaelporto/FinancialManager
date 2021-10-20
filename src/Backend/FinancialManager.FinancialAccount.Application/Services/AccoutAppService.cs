@@ -71,5 +71,60 @@ namespace FinancialManager.FinancialAccounts.Application
 
             return false;
         }
+
+        #region Expenses
+        public async Task<bool> CreateExpense(Guid accountId, CreateExpenseModel model, CancellationToken token = default)
+        {
+            var expense = model.MapToExpense(accountId, _scopeControl.GetUserId());
+
+            if (expense.IsInValid())
+            {
+                _scopeControl.AddNotifications(expense.Notifications);
+                return false;
+            }
+
+            if (token.IsCancellationRequested)
+                return false;
+
+            _repository.Add(expense);
+            return await _repository.UnitOfWork.Commit(token);
+        }
+
+        public async Task<bool> DeleteExpense(Guid accountId, Guid id, CancellationToken token = default)
+        {
+            if (await _repository.RemoveExpense(accountId, id))
+                return await _repository.UnitOfWork.Commit(token);
+
+            return false;
+        }
+
+        public async Task<IEnumerable<ExpenseModel>> GetExpenses(Guid accountId, CancellationToken token = default)
+        {
+            var expenses = await _repository.GetExpenses(accountId, token);
+
+            return expenses.MapToExpenseModels();
+        }
+
+        public async Task<ExpenseModel> GetExpense(Guid accountId, Guid id, CancellationToken token = default)
+        {
+            var expense = await _repository.GetExpense(accountId, id, token);
+
+            return expense.MapToExpenseModel();
+        }
+
+        public async Task<bool> UpdateExpense(Guid accountId, Guid id, EditExpenseModel model, CancellationToken token = default)
+        {
+            var expense = model.MapToExpense(id, accountId, _scopeControl.GetUserId());
+
+            if (expense.IsInValid())
+            {
+                _scopeControl.AddNotifications(expense.Notifications);
+                return false;
+            }
+
+            _repository.Update(expense);
+            return await _repository.UnitOfWork.Commit(token);
+        }
+        #endregion
     }
 }

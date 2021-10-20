@@ -7,7 +7,6 @@ using System.Net;
 namespace FinancialManager.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
     [Produces("application/json")]
     public abstract class ControllerBase : Controller
     {

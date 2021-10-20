@@ -21,7 +21,7 @@ namespace FinancialManager.FinancialAccounts.Application
                 Created = entity.Created,
                 Id = entity.Id,
                 LastUpdated = entity.LastUpdated,
-                OwnerId = entity.OwnerId
+                OwnerId = entity.TenantId
             };
 
         public static IEnumerable<AccountModel> MapToAccountModels(this IEnumerable<Account> model) =>

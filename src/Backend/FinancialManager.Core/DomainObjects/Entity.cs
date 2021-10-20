@@ -1,17 +1,26 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace FinancialManager.Core.DomainObjects
 {
-    public abstract class Entity
+    public abstract class Entity : IEntity
     {
         public Guid Id { get; protected set; } = Guid.NewGuid();
 
-        public List<Notification> _notifications;
+        private List<Notification> _notifications;
+
+        [NotMapped]
         public IReadOnlyList<Notification> Notifications => _notifications?.AsReadOnly();
         public DateTimeOffset Created { get; protected set; }
         public DateTimeOffset? LastUpdated { get; protected set; }
         public bool IsDeleted { get; private set; }
+        public Guid TenantId { get; protected set; }
+
+        [NotMapped]
+        protected virtual ValidationResult Validations => throw new NotImplementedException("Validations are not implemented yet.");
 
         public override bool Equals(object obj)
         {
@@ -41,7 +50,14 @@ namespace FinancialManager.Core.DomainObjects
 
         public override string ToString() => $"{GetType().Name} [Id={Id}]";
 
-        public virtual bool IsValid() => throw new NotImplementedException("IsValid is not implemented.");
+        public virtual bool IsValid()
+        {
+            if (Validations.IsValid)
+                return true;
+
+            _notifications = Validations.Errors?.Select(p => new Notification(p.ErrorCode, p.ErrorMessage)).ToList();
+            return false;
+        }
         public virtual bool IsInValid() => !IsValid();
         public void Delete() => IsDeleted = false;
     }

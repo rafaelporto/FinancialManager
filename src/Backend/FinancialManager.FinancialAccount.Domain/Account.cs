@@ -1,10 +1,9 @@
-﻿using FinancialManager.Core;
-using FinancialManager.Core.DomainObjects;
+﻿using FinancialManager.Core.DomainObjects;
 using FluentValidation;
 using FluentValidation.Results;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace FinancialManager.FinancialAccounts.Domain
 {
@@ -12,10 +11,10 @@ namespace FinancialManager.FinancialAccounts.Domain
     {
         public string AccountName { get; private set; }
         public AccountType AccountType { get; private set; }
-        public Guid OwnerId { get; private set;  }
+        public virtual IList<Expense> Expenses { get; set; }
 
         [NotMapped]
-        private ValidationResult Validations => new AccountValidator().Validate(this);
+        protected override ValidationResult Validations => new AccountValidator().Validate(this);
 
         public Account(Guid id, string accountName, AccountType accountType, Guid applicationUserId) 
             : this(accountName, accountType, applicationUserId) => Id = id;
@@ -24,21 +23,12 @@ namespace FinancialManager.FinancialAccounts.Domain
         {
             AccountName = accountName;
             AccountType = accountType;
-            OwnerId = applicationUserId;
+            TenantId = applicationUserId;
 
             IsValid();
         }
 
         protected Account() { }
-
-        public override bool IsValid()
-        {
-            if (Validations.IsValid)
-                return true;
-
-            _notifications = Validations.Errors?.Select(p => new Notification(p.ErrorCode, p.ErrorMessage)).ToList();
-            return false;
-        }
 
         public static Account CreateEmptyAccount(Guid id) => new() { Id = id };
     }
@@ -57,7 +47,7 @@ namespace FinancialManager.FinancialAccounts.Domain
             RuleFor(p => p.AccountType)
                     .IsInEnum();
 
-            RuleFor(p => p.OwnerId)
+            RuleFor(p => p.TenantId)
                     .NotEmpty();
         }
     }

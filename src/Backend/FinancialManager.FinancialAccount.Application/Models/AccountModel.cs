@@ -12,4 +12,14 @@ namespace FinancialManager.FinancialAccounts.Application
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? LastUpdated { get; set; }
     }
+    public record RegisterAccountModel
+    {
+        public string AccountName { get; set; }
+        public AccountType AccountType { get; set; }
+    }
+    public record EditAccountModel
+    {
+        public string AccountName { get; set; }
+        public AccountType AccountType { get; set; }
+    }
 }

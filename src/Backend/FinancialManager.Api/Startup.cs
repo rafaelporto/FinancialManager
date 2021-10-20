@@ -21,7 +21,6 @@ namespace FinancialManager.Api
             services.AddControllers()
                     .AddNewtonsoftJson(options =>
                     {
-                        options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
                         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                         options.UseCamelCasing(true);
                     });

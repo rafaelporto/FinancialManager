@@ -6,28 +6,26 @@ using System;
 
 namespace FinancialManager.FinancialAccounts.Data
 {
-    internal class AccountConfiguration : IEntityTypeConfiguration<Account>
+    internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         private readonly Guid _tenantId;
-        public AccountConfiguration(Guid tenantId) => _tenantId = tenantId;
 
-        public void Configure(EntityTypeBuilder<Account> builder)
+        public CategoryConfiguration(Guid tenantId) => _tenantId = tenantId;
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("FinancialAccounts");
-
+            builder.ToTable("Categories");
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.AccountName)
-                    .HasMaxLength(30)
-                    .IsRequired();
-
-            builder.Property(p => p.AccountType)
-                    .HasColumnType("tinyint")
-                    .IsRequired();
+            builder.Property(p => p.Description)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
             builder.Property(p => p.TenantId)
                     .IsRequired()
                     .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+            builder.HasMany(p => p.Expenses)
+                    .WithMany(p => p.Categories);
 
             builder.Property(p => p.Created)
                     .HasDefaultValueSql("SYSDATETIMEOFFSET()")

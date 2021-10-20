@@ -1,6 +1,6 @@
 ﻿using FinancialManager.Core;
-using FinancialManager.FinancialAccounts.Application;
 using FinancialManager.FinancialAccounts.Data;
+using FinancialManager.FinancialAccounts.Application;
 using FinancialManager.FinancialAccounts.Domain;
 using FinancialManager.Infrastructure.Identity;
 using MediatR;

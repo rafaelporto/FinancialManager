@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FinancialManager.Api.Controllers
 {
+    [Route("api/authentication")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;

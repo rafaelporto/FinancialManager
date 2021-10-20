@@ -4,6 +4,7 @@ using FinancialManager.FinancialAccounts.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,5 +51,36 @@ namespace FinancialManager.FinancialAccounts.Data
 
             return false;
         }
+
+        #region Expenses
+        public void Add(Expense expense) => _context.Expenses.Add(expense);
+
+        public async Task<bool> RemoveExpense(Guid accountId, Guid id)
+        {
+            if (await _context.Expenses.AnyAsync(p => p.Id == id && p.AccountId == accountId))
+            {
+                Expense expense = Expense.CreateEmpty(id);
+
+                _context.Expenses.Add(expense);
+                _context.Entry(expense).State = EntityState.Deleted;
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<IEnumerable<Expense>> GetExpenses(Guid accountId, CancellationToken token = default)
+        {
+            var result = await _context.Expenses.AsNoTracking()
+                                        .Where(p => p.AccountId == accountId)
+                                        .ToListAsync(token);
+            return result;
+        }
+
+        public async Task<Expense> GetExpense(Guid accountId, Guid id, CancellationToken token = default) =>
+            await _context.Expenses.FirstOrDefaultAsync(p => p.Id == id && p.AccountId == accountId, token);
+
+        public void Update(Expense expense) => _context.Expenses.Update(expense);
+        #endregion
     }
 }

@@ -2,42 +2,25 @@
 using FinancialManager.Core.Data;
 using FinancialManager.FinancialAccounts.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FinancialManager.FinancialAccounts.Data
 {
-    public class AccountContext : DbContext, IUnitOfWork
+    public class AccountContext : ManagerContext<AccountContext>
     {
-        private readonly IScopeControl _scopeControl;
-
         public AccountContext(DbContextOptions<AccountContext> options, IScopeControl scopeControl)
-            : base(options) =>
-            _scopeControl = scopeControl ?? throw new ArgumentNullException(nameof(scopeControl));
+            : base(options, scopeControl) { }
 
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AccountConfiguration(_scopeControl.GetUserId()));
+            modelBuilder.ApplyConfiguration(new AccountConfiguration(ScopeControl.GetUserId()));
+            modelBuilder.ApplyConfiguration(new ExpenseConfiguration(ScopeControl.GetUserId()));
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration(ScopeControl.GetUserId()));
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        public async Task<bool> Commit(CancellationToken token = default)
-        {
-            SetLastUpdated();
-            return await base.SaveChangesAsync(token) > 0;
-        }
-
-        protected void SetLastUpdated()
-        {
-            foreach (var entry in ChangeTracker.Entries<Account>())
-            {
-                if (entry.State == EntityState.Modified)
-                    entry.Property(p => p.LastUpdated).CurrentValue = DateTimeOffset.Now;
-            }
         }
     }
 }
