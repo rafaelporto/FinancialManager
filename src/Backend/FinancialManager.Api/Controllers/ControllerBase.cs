@@ -1,11 +1,13 @@
 ﻿using FinancialManager.Core;
 using FinancialManager.Core.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 
 namespace FinancialManager.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Produces("application/json")]
     public abstract class ControllerBase : Controller

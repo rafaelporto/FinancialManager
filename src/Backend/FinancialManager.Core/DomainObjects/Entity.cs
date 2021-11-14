@@ -59,6 +59,6 @@ namespace FinancialManager.Core.DomainObjects
             return false;
         }
         public virtual bool IsInValid() => !IsValid();
-        public void Delete() => IsDeleted = false;
+        public void Delete() => IsDeleted = true;
     }
 }

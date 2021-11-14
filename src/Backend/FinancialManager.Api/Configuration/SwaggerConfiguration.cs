@@ -49,7 +49,7 @@ namespace FinancialManager.Api.Configuration
                 throw new ArgumentNullException($"{nameof(app)} is required for configure swagger middleware.");
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity.Web v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FinancialManager.API v1"));
 
             return app;
         }

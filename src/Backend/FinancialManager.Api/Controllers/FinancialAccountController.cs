@@ -1,6 +1,6 @@
 ﻿using FinancialManager.Core;
 using FinancialManager.Core.Extensions;
-using FinancialManager.FinancialAccounts.Application;
+using FinancialManager.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace FinancialManager.Api.Controllers
 {
-    [Authorize]
     [Route("api/financial-account")]
     public partial class FinancialAccountController : ControllerBase
     {
@@ -97,7 +96,7 @@ namespace FinancialManager.Api.Controllers
         }
 
         [HttpGet("{accountId:Guid}/expenses/{id:Guid}")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<AccountModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IReadOnlyCollection<ExpenseModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ApiResult), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetExpense([FromRoute] Guid accountId, [FromRoute] Guid id, CancellationToken token = default)
         {
@@ -133,6 +132,16 @@ namespace FinancialManager.Api.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpPost("{accountId:Guid}/expenses/{expenseId:Guid}/tags")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> AddTagToExpense([FromRoute] Guid accountId, [FromRoute] Guid expenseId,
+            [FromBody] Guid[] tagsIds, CancellationToken token = default)
+        {
+            await _service.AddTagToExpense(accountId, expenseId, tagsIds, token);
+            return ApiResponse();
         }
         #endregion
     }

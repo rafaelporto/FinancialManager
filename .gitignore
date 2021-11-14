@@ -5,3 +5,5 @@
 /.vs
 **/obj
 **/bin
+/src/Backend/FinancialManager.Domain/.vs/FinancialManager.Domain
+/.idea/*
