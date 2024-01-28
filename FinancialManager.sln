@@ -1,79 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
-MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{04368253-E6D5-4CF7-A3C3-FC9690230CAB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D54CE8BF-00F0-4ABF-8171-5D67D45F474D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Api", "src\Backend\FinancialManager.Api\FinancialManager.Api.csproj", "{B5B23933-0092-4F85-B4C0-9FC7E6784939}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Infrastructure", "src\Backend\FinancialManager.Infrastructure\FinancialManager.Infrastructure.csproj", "{DF6F8B65-0616-4E7F-BBFD-98C18D8F15D5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Core", "src\Backend\FinancialManager.Core\FinancialManager.Core.csproj", "{CA146091-8AD1-4C48-95E7-D395316E9E26}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0F598095-B48C-41DA-AE55-D7D92002BA12}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{518354FB-690D-48AB-9E28-8E7598C03B5A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{995C87AA-C276-4E83-A0D6-279FE61E4920}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CDD0D919-41B1-4CD1-9959-4CABCFDA62FA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Application", "src\Backend\FinancialManager.Application\FinancialManager.Application.csproj", "{0FC6EC9D-4081-4D5F-8EE0-5949EBB96EF2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Data", "src\Backend\FinancialManager.Data\FinancialManager.Data.csproj", "{59056615-8681-488A-B99A-E3C81DB8E86E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Domain", "src\Backend\FinancialManager.Domain\FinancialManager.Domain.csproj", "{8E31CCB3-4CD3-4F56-BD2C-2BF206A7A14C}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager", "src\FinancialManager.csproj", "{BC29B910-55C1-44A3-896F-9C19653629EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5B23933-0092-4F85-B4C0-9FC7E6784939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5B23933-0092-4F85-B4C0-9FC7E6784939}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5B23933-0092-4F85-B4C0-9FC7E6784939}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5B23933-0092-4F85-B4C0-9FC7E6784939}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF6F8B65-0616-4E7F-BBFD-98C18D8F15D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF6F8B65-0616-4E7F-BBFD-98C18D8F15D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF6F8B65-0616-4E7F-BBFD-98C18D8F15D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF6F8B65-0616-4E7F-BBFD-98C18D8F15D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA146091-8AD1-4C48-95E7-D395316E9E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA146091-8AD1-4C48-95E7-D395316E9E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA146091-8AD1-4C48-95E7-D395316E9E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA146091-8AD1-4C48-95E7-D395316E9E26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FC6EC9D-4081-4D5F-8EE0-5949EBB96EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FC6EC9D-4081-4D5F-8EE0-5949EBB96EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FC6EC9D-4081-4D5F-8EE0-5949EBB96EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FC6EC9D-4081-4D5F-8EE0-5949EBB96EF2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59056615-8681-488A-B99A-E3C81DB8E86E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59056615-8681-488A-B99A-E3C81DB8E86E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59056615-8681-488A-B99A-E3C81DB8E86E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59056615-8681-488A-B99A-E3C81DB8E86E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E31CCB3-4CD3-4F56-BD2C-2BF206A7A14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E31CCB3-4CD3-4F56-BD2C-2BF206A7A14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E31CCB3-4CD3-4F56-BD2C-2BF206A7A14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E31CCB3-4CD3-4F56-BD2C-2BF206A7A14C}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D54CE8BF-00F0-4ABF-8171-5D67D45F474D} = {0F598095-B48C-41DA-AE55-D7D92002BA12}
-		{B5B23933-0092-4F85-B4C0-9FC7E6784939} = {04368253-E6D5-4CF7-A3C3-FC9690230CAB}
-		{DF6F8B65-0616-4E7F-BBFD-98C18D8F15D5} = {D54CE8BF-00F0-4ABF-8171-5D67D45F474D}
-		{CA146091-8AD1-4C48-95E7-D395316E9E26} = {D54CE8BF-00F0-4ABF-8171-5D67D45F474D}
-		{518354FB-690D-48AB-9E28-8E7598C03B5A} = {0F598095-B48C-41DA-AE55-D7D92002BA12}
-		{995C87AA-C276-4E83-A0D6-279FE61E4920} = {0F598095-B48C-41DA-AE55-D7D92002BA12}
-		{CDD0D919-41B1-4CD1-9959-4CABCFDA62FA} = {0F598095-B48C-41DA-AE55-D7D92002BA12}
-		{0FC6EC9D-4081-4D5F-8EE0-5949EBB96EF2} = {518354FB-690D-48AB-9E28-8E7598C03B5A}
-		{59056615-8681-488A-B99A-E3C81DB8E86E} = {995C87AA-C276-4E83-A0D6-279FE61E4920}
-		{8E31CCB3-4CD3-4F56-BD2C-2BF206A7A14C} = {CDD0D919-41B1-4CD1-9959-4CABCFDA62FA}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B9EA2458-6382-479C-96AB-4A9C44A68C60}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC29B910-55C1-44A3-896F-9C19653629EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC29B910-55C1-44A3-896F-9C19653629EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC29B910-55C1-44A3-896F-9C19653629EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC29B910-55C1-44A3-896F-9C19653629EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

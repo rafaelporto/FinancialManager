@@ -1,9 +1,5 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/.vs
+﻿/.vscode
 **/obj
 **/bin
-/src/Backend/FinancialManager.Domain/.vs/FinancialManager.Domain
-/.idea/*
+.DS_Store
+
